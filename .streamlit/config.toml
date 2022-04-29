@@ -3,4 +3,4 @@ primaryColor = "#FFB33D"
 backgroundColor = "#222630"
 secondaryBackgroundColor = "#20222B"
 textColor = "#ffffff"
-font = "mono"
+font=“sans serif”
