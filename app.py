@@ -74,8 +74,8 @@ if sidebar_function == "Asset Reports":
 
 
         price_data = web.get_data_yahoo(options1,
-                                start = start,
-                                end = end)
+                                start = start_date,
+                                end = end_date)
         
         
         
