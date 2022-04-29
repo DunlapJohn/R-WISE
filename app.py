@@ -56,10 +56,9 @@ if sidebar_function == "Asset Reports":
         st.subheader('Big Three Relative Preformance')
         dropdown = ['ETH-USD', 'BTC-USD', 'SOL-USD']
 
-        start =  start_date
-        end = end_date
+ 
 
-        rwise = (relativeret(yf.download(dropdown, start, end)['Close'])+1)*100
+        rwise = (relativeret(yf.download(dropdown, start_date, end_date)['Close'])+1)*100
         st.line_chart(rwise)
         rwise['Date'] = rwise.index
 
@@ -69,17 +68,15 @@ if sidebar_function == "Asset Reports":
         options1 = st.multiselect(
             '',
             ['ETH-USD',   'BTC-USD', 'SOL-USD', 'FTT-USD', 'AVAX-USD', 'BNB-USD', 'LUNA1-USD', 'LINK-USD', 'RAY-USD', 'SRM-USD', 'UNI-USD', 'ATLAS-USD', 'POLIS-USD'],
-            ['SOL-USD', 'ETH-USD', 'BTC-USD', 'FTT-USD', 'AVAX-USD'])
+            ['LUNA1-USD', 'FTT-USD', 'AVAX-USD'])
 
 
 
-        price_data = web.get_data_yahoo(options1,
-                                start = start_date,
-                                end = end_date)
+        price_data = web.get_data_yahoo(options1, start_date, end_date)
         
         
         
-        tenb = (relativeret(yf.download(options1, start, end)['Close'])+1)*100
+        tenb = (relativeret(yf.download(options1, start_date, end_date)['Close'])+1)*100
 
         st.line_chart(tenb)
 
@@ -88,7 +85,7 @@ if sidebar_function == "Asset Reports":
 
 
 
-        close_px = yf.download(options1, start, end)['Close']
+        close_px = yf.download(options1, start_date, end_date)['Close']
         mavg = close_px.rolling(window=30).mean() # moving average 
 
 
@@ -114,7 +111,7 @@ if sidebar_function == "Asset Reports":
 
         # title='Relative Return of Assets - 10B <'
 
-        df2 = yf.download(options1, start, end)[['Close']]
+        df2 = yf.download(options1, start_date, end_date)[['Close']]
 
         df2.index.name= 'timestamp'
 
@@ -153,7 +150,7 @@ if sidebar_function == "Asset Reports":
 
 
 
-        ratios = yf.download(options1, start, end)[['Close']]
+        ratios = yf.download(options1, start_date, end_date)[['Close']]
         ratios.index.name= 'timestamp'
         ratios = ratios.pct_change().dropna()
         ratios['Port'] = ratios.mean(axis=1) # 20% apple, ... , 20% facebook
