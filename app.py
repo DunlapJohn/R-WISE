@@ -14,12 +14,6 @@ risk_methods = ["Covariance"]
 risk_free_rates = ["No Risk Rree Rate", "4 Week Treasury Bill", "3 Month Treasury Bill", "6 Month Treasury Bill", "1 Year Treasury Bill", "Manual Input"]
 function_list = [ 'Asset Reports', 'Crypto vs Legacy']
 
-st.header("R-WISE")
-with st.expander('Why'):
-    st.write(" We want to give investors a glimspe into some of the variable we take into consideration but also...\
-             Solrise needs more Fund Managers, hopefully this inspires  \
-            someone to start a new Solrise Fund or just become more active on the platform\
-                ")
 
 
 today = dt.date.today()
@@ -45,7 +39,7 @@ if sidebar_function == "Asset Reports":
 
         # Project Details
 
-        st.header("Solrise Asset Report")
+        st.header("Asset Report")
         
         
         st.subheader('Big Three Relative Preformance')
@@ -133,7 +127,7 @@ if sidebar_function == "Asset Reports":
         vol = pd.DataFrame()
         vol['Negative Daily Return Deviation'] = semi_std_neg
         vol['Positive Daily Return Deviation'] = semi_std_pos
-        st.bar_chart(vol['Positive Daily Return Deviation'],   vol['Negative Daily Return Deviation'] )
+        st.bar_chart(vol )
         
         trending = semi_std_pos-semi_std_neg
         trending = trending.sort_values(ascending = True)
@@ -234,4 +228,3 @@ if sidebar_function == "Crypto vs Legacy":
 
     semi_std_neg = rwise[rwise<0].std(ddof=0)
     comparison = pd.concat([semi_std_pos, semi_std_neg], axis=1)
-
