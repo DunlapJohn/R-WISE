@@ -18,7 +18,7 @@ function_list = [ 'Asset Reports', 'Crypto vs Legacy']
 
 today = dt.date.today()
 
-before = today - dt.timedelta(days=365)
+before = today - dt.timedelta(days=30)
 start_date = st.sidebar.date_input('Start date', before)
 end_date = st.sidebar.date_input('End date', today)
 
