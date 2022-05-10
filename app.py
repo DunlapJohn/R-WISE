@@ -57,7 +57,7 @@ if sidebar_function == "Asset Reports":
         options1 = st.multiselect(
             '',
             ['ETH-USD',   'BTC-USD', 'SOL-USD', 'FTT-USD', 'AVAX-USD', 'BNB-USD', 'LUNA1-USD', 'LINK-USD', 'RAY-USD', 'SRM-USD', 'UNI-USD', 'ATLAS-USD', 'POLIS-USD'],
-            ['LUNA1-USD', 'FTT-USD', 'AVAX-USD'])
+            ['LUNA1-USD', 'FTT-USD', 'AVAX-USD', 'BNB-USD', 'LINK-USD'])
 
 
 
@@ -142,7 +142,7 @@ if sidebar_function == "Asset Reports":
         ratios = yf.download(options1, start_date, end_date)[['Close']]
         ratios.index.name= 'timestamp'
         ratios = ratios.pct_change().dropna()
-        ratios['Port'] = ratios.mean(axis=1) # 20% apple, ... , 20% facebook
+        ratios['Port'] = ratios.mean(axis=1)
         # (ratios+1).cumprod().plot()
         # (ratios+1).cumprod()[-1:]
         # 
