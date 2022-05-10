@@ -9,15 +9,10 @@ import pandas_datareader as web
 import plotly.graph_objects as go
 
 
-
-
-
-
-
 returns_methods = ["Mean Returns", "Log Returns"]
 risk_methods = ["Covariance"]
 risk_free_rates = ["No Risk Rree Rate", "4 Week Treasury Bill", "3 Month Treasury Bill", "6 Month Treasury Bill", "1 Year Treasury Bill", "Manual Input"]
-function_list = [ 'Asset Reports', 'Portfolio Risk Analysis (Coming Soon)']
+function_list = [ 'Asset Reports', 'Crypto vs Legacy']
 
 st.header("R-WISE")
 with st.expander('Why'):
@@ -138,7 +133,7 @@ if sidebar_function == "Asset Reports":
         vol = pd.DataFrame()
         vol['Negative Daily Return Deviation'] = semi_std_neg
         vol['Positive Daily Return Deviation'] = semi_std_pos
-        st.bar_chart(vol)
+        st.bar_chart(vol['Positive Daily Return Deviation'],   vol['Negative Daily Return Deviation'] )
         
         trending = semi_std_pos-semi_std_neg
         trending = trending.sort_values(ascending = True)
@@ -199,7 +194,44 @@ if sidebar_function == "Asset Reports":
         st.bar_chart(btstats)
         st.dataframe(btstats)
 
-
           
-# if sidebar_function == "Portfolio Risk Analysis"
-#         #  Hello 
+if sidebar_function == "Crypto vs Legacy":
+
+    def relativeret (df):
+                rel =df.pct_change()
+                cumret = (1+rel).cumprod()-1
+                cumret = cumret.dropna()
+                return cumret
+
+
+        
+
+    dropdown = ['^GSPC', 'BTC-USD', 'CL=F', 'GC=F', 'TAN']
+
+    rwise = (relativeret(yf.download(dropdown, start_date, end_date)['Close'])+1)*100
+
+    rwise['Gold']=rwise['GC=F']
+    rwise['Crude Oil']=rwise['CL=F'] 
+    rwise['S&P 500']=rwise['^GSPC'] 
+    rwise['SOLAR ETF']=rwise['TAN']
+
+
+    rwise = rwise[['Gold', 'S&P 500', 'Crude Oil', 'BTC-USD', 'SOLAR ETF']]
+
+    st.line_chart(rwise)
+
+    corr=rwise.corr(method='pearson')
+
+    st.table(corr)
+
+
+    std = rwise.std(ddof=0)
+
+    volatility = std**2
+
+
+    semi_std_pos = rwise[rwise>0].std(ddof=0)
+
+    semi_std_neg = rwise[rwise<0].std(ddof=0)
+    comparison = pd.concat([semi_std_pos, semi_std_neg], axis=1)
+
